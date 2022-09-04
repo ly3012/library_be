@@ -13,48 +13,45 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.library.entity.book;
-import com.library.repository.BookRepository;
+import com.library.entity.reader;
+import com.library.repository.readerRepository;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/admin")
-
-public class bookController {
+public class readerController {
 
 	@Autowired
-	private BookRepository bookRepository;
-	public List<book> books = new ArrayList<book>();
+	private readerRepository readerRepository;
+	public List<reader> readers = new ArrayList<reader>();
 
 
-	@GetMapping("/books")
-	public List<book> getAll() {
-		return bookRepository.findAll();
+	@GetMapping("/readers")
+	public List<reader> getAll() {
+		return readerRepository.findAll();
 	}
 	
-	@PostMapping("/books")
-	public book create(@RequestBody book book) {
-		
-		return bookRepository.save(book);
+	@PostMapping("/readers")
+	public reader create(@RequestBody reader reader) {
+		return readerRepository.save(reader);
 	}
 
-	@DeleteMapping("/books/{id}")
+	@DeleteMapping("/readers/{id}")
 	public ResponseEntity<HttpStatus> deleteEmployeeById(@PathVariable Long id) {
-		bookRepository.deleteById(id);
+		readerRepository.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	
-	@GetMapping("/books/{id}")
-	public book getBookById(@PathVariable Long id) {
-		return bookRepository.findById(id).get();
+	@GetMapping("/readers/{id}")
+	public reader getReaderById(@PathVariable Long id) {
+		return readerRepository.findById(id).get();
 	}
 	
-	@PutMapping("/books")
-	public book updateBook(@RequestBody book book) {
-		return bookRepository.save(book);
+	@PutMapping("/readers")
+	public reader updateReader(@RequestBody reader reader) {
+		return readerRepository.save(reader);
 	}
 }

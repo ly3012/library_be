@@ -1,5 +1,6 @@
 package com.library.entity;
 
+
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
@@ -25,45 +26,40 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
-@Table(name = "Books")
+@Table(name = "Reader")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
-public class book {
+public class reader {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_book")
-	private long idBook; 
+	@Column(name = "id_reader")
+	private long idReader;
 	
-	@Column(name = "name")
-	private String name;
+	@Column(name = "fullName")
+	private String fullName;
 	
-	@Column(name = "authors")
-	private String author;
+	@Column(name = "address")
+	private String address;
 	
-	@Column(name = "numberOfPages")
-	private long numberOfPages;
+	@Column(name = "phoneNumber")
+	private String phoneNumber;
 	
-	@Column(name = "released")
-	private String released;
-	
-	@Column(name = "amount")
-	private long amount;
-	
-	@Column(name = "image")
-	private String image;
+	@Column(name = "email")
+	private String email;
 	
 	@LastModifiedDate
-	@Column(name = "updated_at", nullable = false, updatable = true)
+	@Column(name = "updated_at",nullable = false, updatable = true)
     private Date updatedAt;
 	
-//	@LastModifiedDate
-//    @Column(name = "updated_at")
-//    private LocalDateTime updatedAt;
+	@Column(name = "Status")
+	private boolean status;
+
 	
-//	
-//	 @ManyToMany(mappedBy = "book_callSlip")
-//	    private Set<callSlip> callSlips;
+//	@OneToMany (mappedBy = "callSlip")
+//	private Set<callSlip> callSlips;
+
 }

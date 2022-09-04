@@ -13,48 +13,45 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.library.entity.book;
-import com.library.repository.BookRepository;
+import com.library.entity.callSlip;
+import com.library.repository.callSlipRepository;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/admin")
-
-public class bookController {
+public class callSlipController {
 
 	@Autowired
-	private BookRepository bookRepository;
-	public List<book> books = new ArrayList<book>();
+	private callSlipRepository callSlipRepository;
+	public List<callSlip> callSlips = new ArrayList<callSlip>();
 
 
-	@GetMapping("/books")
-	public List<book> getAll() {
-		return bookRepository.findAll();
+	@GetMapping("/callSlips")
+	public List<callSlip> getAll() {
+		return callSlipRepository.findAll();
 	}
 	
-	@PostMapping("/books")
-	public book create(@RequestBody book book) {
-		
-		return bookRepository.save(book);
+	@PostMapping("/callSlips")
+	public callSlip create(@RequestBody callSlip callSlip) {
+		return callSlipRepository.save(callSlip);
 	}
 
-	@DeleteMapping("/books/{id}")
+	@DeleteMapping("/callSlips/{id}")
 	public ResponseEntity<HttpStatus> deleteEmployeeById(@PathVariable Long id) {
-		bookRepository.deleteById(id);
+		callSlipRepository.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	
-	@GetMapping("/books/{id}")
-	public book getBookById(@PathVariable Long id) {
-		return bookRepository.findById(id).get();
+	@GetMapping("/callSlips/{id}")
+	public callSlip getReaderById(@PathVariable Long id) {
+		return callSlipRepository.findById(id).get();
 	}
 	
-	@PutMapping("/books")
-	public book updateBook(@RequestBody book book) {
-		return bookRepository.save(book);
+	@PutMapping("/callSlips")
+	public callSlip updateReader(@RequestBody callSlip callSlip) {
+		return callSlipRepository.save(callSlip);
 	}
 }
