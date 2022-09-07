@@ -48,7 +48,7 @@ public class callSlip {
 	@ManyToMany
 	@JoinTable(
 			name = "book_callSlip",
-			joinColumns = @JoinColumn (name = "idBook"),
+			joinColumns = @JoinColumn (name = "id_book"),
 			inverseJoinColumns = @JoinColumn(name = "idCallSlip")
 			)	
 	private List<book> books;

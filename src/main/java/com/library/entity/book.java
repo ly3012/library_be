@@ -40,7 +40,7 @@ public class book {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "authors")
+	@Column(name = "author")
 	private String author;
 	
 	@Column(name = "numberOfPages")

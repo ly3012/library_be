@@ -13,18 +13,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.library.entity.reader;
-import com.library.repository.readerRepository;
+import com.library.repository.ReaderRepository;
+import com.library.service.ReaderService;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/admin")
+
 public class readerController {
 
 	@Autowired
-	private readerRepository readerRepository;
+	private ReaderRepository readerRepository;
+	
+	@Autowired
+	private ReaderService readerService;
+	
 	public List<reader> readers = new ArrayList<reader>();
 
 
@@ -54,4 +61,9 @@ public class readerController {
 	public reader updateReader(@RequestBody reader reader) {
 		return readerRepository.save(reader);
 	}
+	
+	@GetMapping("/readers/search")
+    public ResponseEntity<List<reader>> findByCriteria(@RequestParam("query") String query){
+        return ResponseEntity.ok(readerService.findByCriteria(query));
+    }
 }

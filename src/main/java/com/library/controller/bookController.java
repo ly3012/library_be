@@ -18,15 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.library.entity.book;
 import com.library.repository.BookRepository;
+import com.library.service.BookService;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/admin")
 
 public class bookController {
+	
+	@Autowired
+	private BookService bookService;
 
 	@Autowired
 	private BookRepository bookRepository;
+	
 	public List<book> books = new ArrayList<book>();
 
 
@@ -34,6 +39,11 @@ public class bookController {
 	public List<book> getAll() {
 		return bookRepository.findAll();
 	}
+	
+	@GetMapping("/books/search")
+    public ResponseEntity<List<book>> findBookByCriteria(@RequestParam("query") String query){
+        return ResponseEntity.ok(bookService.findBookByCriteria(query));
+    }
 	
 	@PostMapping("/books")
 	public book create(@RequestBody book book) {
