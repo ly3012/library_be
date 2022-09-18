@@ -15,43 +15,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.library.entity.admin;
-import com.library.repository.adminRepository;
+import com.library.entity.Admin;
+import com.library.repository.AdminRepository;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/admin")
-public class adminController {
+public class AdminController {
 
 	@Autowired
-	private adminRepository adminRepository;
-	public List<admin> admins = new ArrayList<admin>();
+	private AdminRepository AdminRepository;
+	public List<Admin> Admins = new ArrayList<Admin>();
 
 
 	@GetMapping("/admins")
-	public List<admin> getAll() {
-		return adminRepository.findAll();
+	public List<Admin> getAll() {
+		return AdminRepository.findAll();
 	}
 	
 	@PostMapping("/admins")
-	public admin create(@RequestBody admin admin) {
-		return adminRepository.save(admin);
+	public Admin create(@RequestBody Admin Admin) {
+		return AdminRepository.save(Admin);
 	}
 
 	@DeleteMapping("/admins/{id}")
 	public ResponseEntity<HttpStatus> deleteEmployeeById(@PathVariable Long id) {
-		adminRepository.deleteById(id);
+		AdminRepository.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	
 	@GetMapping("/admins/{id}")
-	public admin getReaderById(@PathVariable Long id) {
-		return adminRepository.findById(id).get();
+	public Admin getReaderById(@PathVariable Long id) {
+		return AdminRepository.findById(id).get();
 	}
 	
 	@PutMapping("/admins")
-	public admin updateReader(@RequestBody admin admin) {
-		return adminRepository.save(admin);
+	public Admin updateReader(@RequestBody Admin Admin) {
+		return AdminRepository.save(Admin);
 	}
 }

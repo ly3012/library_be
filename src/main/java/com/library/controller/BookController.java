@@ -16,54 +16,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.library.entity.reader;
-import com.library.repository.ReaderRepository;
-import com.library.service.ReaderService;
+import com.library.entity.book;
+import com.library.repository.BookRepository;
+import com.library.service.BookService;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/admin")
 
-public class readerController {
-
-	@Autowired
-	private ReaderRepository readerRepository;
+public class BookController {
 	
 	@Autowired
-	private ReaderService readerService;
+	private BookService bookService;
+
+	@Autowired
+	private BookRepository bookRepository;
 	
-	public List<reader> readers = new ArrayList<reader>();
+	public List<book> books = new ArrayList<book>();
 
 
-	@GetMapping("/readers")
-	public List<reader> getAll() {
-		return readerRepository.findAll();
+	@GetMapping("/books")
+	public List<book> getAll() {
+		return bookRepository.findAll();
 	}
 	
-	@PostMapping("/readers")
-	public reader create(@RequestBody reader reader) {
-		return readerRepository.save(reader);
+	@GetMapping("/books/search")
+    public ResponseEntity<List<book>> findBookByCriteria(@RequestParam("query") String query){
+        return ResponseEntity.ok(bookService.findBookByCriteria(query));
+    }
+	
+	@PostMapping("/books")
+	public book create(@RequestBody book book) {
+		
+		return bookRepository.save(book);
 	}
 
-	@DeleteMapping("/readers/{id}")
+	@DeleteMapping("/books/{id}")
 	public ResponseEntity<HttpStatus> deleteEmployeeById(@PathVariable Long id) {
-		readerRepository.deleteById(id);
+		bookRepository.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	
-	@GetMapping("/readers/{id}")
-	public reader getReaderById(@PathVariable Long id) {
-		return readerRepository.findById(id).get();
+	@GetMapping("/books/{id}")
+	public book getBookById(@PathVariable Long id) {
+		return bookRepository.findById(id).get();
 	}
 	
-	@PutMapping("/readers")
-	public reader updateReader(@RequestBody reader reader) {
-		return readerRepository.save(reader);
+	@PutMapping("/books")
+	public book updateBook(@RequestBody book book) {
+		return bookRepository.save(book);
 	}
-	
-	@GetMapping("/readers/search")
-    public ResponseEntity<List<reader>> findByCriteria(@RequestParam("query") String query){
-        return ResponseEntity.ok(readerService.findByCriteria(query));
-    }
 }

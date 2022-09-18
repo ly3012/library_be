@@ -58,7 +58,7 @@ public class callSlip {
 	
 	@ManyToOne
 	@JoinColumn (name = "id_admin")
-	private admin idAdmin;
+	private Admin idAdmin;
 //	
 //	@ManyToOne 
 //    @JoinColumn(name = "address_id") // thông qua khóa ngoại address_id

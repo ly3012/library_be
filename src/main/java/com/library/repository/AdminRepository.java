@@ -3,9 +3,9 @@ package com.library.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.library.entity.admin;
+import com.library.entity.Admin;
 
 @Repository
-public interface adminRepository extends JpaRepository<admin, Long> {
+public interface AdminRepository extends JpaRepository<Admin, Long> {
 	
 }

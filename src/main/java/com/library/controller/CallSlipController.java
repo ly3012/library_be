@@ -16,42 +16,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.library.entity.callSlip;
-import com.library.repository.callSlipRepository;
+import com.library.repository.CallSlipRepository;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/admin")
-public class callSlipController {
+public class CallSlipController {
 
 	@Autowired
-	private callSlipRepository callSlipRepository;
+	private CallSlipRepository CallSlipRepository;
 	public List<callSlip> callSlips = new ArrayList<callSlip>();
 
 
 	@GetMapping("/callSlips")
 	public List<callSlip> getAll() {
-		return callSlipRepository.findAll();
+		return CallSlipRepository.findAll();
 	}
 	
 	@PostMapping("/callSlips")
 	public callSlip create(@RequestBody callSlip callSlip) {
-		return callSlipRepository.save(callSlip);
+		return CallSlipRepository.save(callSlip);
 	}
 
 	@DeleteMapping("/callSlips/{id}")
 	public ResponseEntity<HttpStatus> deleteEmployeeById(@PathVariable Long id) {
-		callSlipRepository.deleteById(id);
+		CallSlipRepository.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	
 	@GetMapping("/callSlips/{id}")
 	public callSlip getReaderById(@PathVariable Long id) {
-		return callSlipRepository.findById(id).get();
+		return CallSlipRepository.findById(id).get();
 	}
 	
 	@PutMapping("/callSlips")
 	public callSlip updateReader(@RequestBody callSlip callSlip) {
-		return callSlipRepository.save(callSlip);
+		return CallSlipRepository.save(callSlip);
 	}
 }

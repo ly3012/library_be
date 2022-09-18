@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.library.entity.callSlip;
 
 @Repository
-public interface callSlipRepository extends JpaRepository<callSlip, Long> {
+public interface CallSlipRepository extends JpaRepository<callSlip, Long> {
 	
 }
