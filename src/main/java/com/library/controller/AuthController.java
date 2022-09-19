@@ -43,6 +43,7 @@ public class AuthController {
 	UserService userService;
 	@Autowired
 	UserServiceImpl userServiceImpl;
+	@SuppressWarnings("unused")
 	@Autowired
 	private UserDetailServiceImpl userDetailsService;
 	@Autowired
@@ -54,14 +55,8 @@ public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
 
-	@PostMapping("/signup")
+	@PostMapping("/createUser")
 	public ResponseEntity<?> register(@Valid @RequestBody SignUpForm signUpForm) {
-		
-//		 if (userServiceImpl.existsByUsername(signUpForm.getUsername()) != null) {
-//	            return ResponseEntity
-//	                    .badRequest()
-//	                    .body(new ResponseMessage("Tên đăng nhập đã tồn tại!!!"));
-//	        }
 		if (userServiceImpl.existsByUsername(signUpForm.getUsername())) {
 			return new ResponseEntity<>(new ResponseMessage("tên đăng nhập đã tồn tại"), HttpStatus.OK);
 		}
@@ -75,7 +70,7 @@ public class AuthController {
 		Set<Role> roles = new HashSet<>();
 		strRoles.forEach(role -> {
 			switch (role) {
-			case "admin":
+			case "admin","ROLE_ADMIN":
 				Role adminRole = roleService.findByName(RoleName.ROLE_ADMIN)
 						.orElseThrow(() -> new UsernameNotFoundException("Role Not Found!"));
 				roles.add(adminRole);
@@ -91,7 +86,6 @@ public class AuthController {
 		userServiceImpl.save(user);
 		
 		return ResponseEntity.ok(new ResponseMessage("Tạo tài khoản thành công!"));
-//		return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
 	}
 
 	@PostMapping("/login")
@@ -127,10 +121,4 @@ public class AuthController {
 
 	}
 
-	@GetMapping("/userinfo")
-	public ResponseEntity<?> getUserInfo(User user){
-		User userObj= (User) userDetailsService.loadUserByUsername(user.getName());
-		return ResponseEntity.ok(userObj);
-				
-	}
 }

@@ -1,11 +1,13 @@
 package com.library.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.library.entity.User;
+import com.library.entity.book;
 import com.library.repository.UserRepository;
 import com.library.service.UserService;
 
@@ -18,6 +20,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 
+    @Override
+    public List<User> findUserByCriteria (String query) {
+        List<User> users = userRepository.findUserByCriteria(query);
+        return users;
+    }
     @Override
     public Boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);

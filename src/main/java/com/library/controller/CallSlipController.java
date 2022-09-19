@@ -25,32 +25,32 @@ public class CallSlipController {
 
 	@Autowired
 	private CallSlipRepository CallSlipRepository;
-	public List<callSlip> callSlips = new ArrayList<callSlip>();
+	public List<callSlip> callCards = new ArrayList<callSlip>();
 
 
-	@GetMapping("/callSlips")
+	@GetMapping("/callCards")
 	public List<callSlip> getAll() {
 		return CallSlipRepository.findAll();
 	}
 	
-	@PostMapping("/callSlips")
+	@PostMapping("/callCards")
 	public callSlip create(@RequestBody callSlip callSlip) {
 		return CallSlipRepository.save(callSlip);
 	}
 
-	@DeleteMapping("/callSlips/{id}")
+	@DeleteMapping("/callCards/{id}")
 	public ResponseEntity<HttpStatus> deleteEmployeeById(@PathVariable Long id) {
 		CallSlipRepository.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	
-	@GetMapping("/callSlips/{id}")
+	@GetMapping("/callCards/{id}")
 	public callSlip getReaderById(@PathVariable Long id) {
 		return CallSlipRepository.findById(id).get();
 	}
 	
-	@PutMapping("/callSlips")
+	@PutMapping("/callCards")
 	public callSlip updateReader(@RequestBody callSlip callSlip) {
 		return CallSlipRepository.save(callSlip);
 	}

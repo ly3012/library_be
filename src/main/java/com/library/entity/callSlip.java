@@ -54,8 +54,6 @@ public class callSlip {
 	private List<book> books;
 	
 	
-	
-	
 	@ManyToOne
 	@JoinColumn (name = "id_admin")
 	private Admin idAdmin;

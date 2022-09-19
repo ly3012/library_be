@@ -40,8 +40,6 @@ import lombok.NoArgsConstructor;
 @Data
 @EntityListeners(AuditingEntityListener.class)
 public class User {
-	
-
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
