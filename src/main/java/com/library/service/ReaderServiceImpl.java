@@ -22,4 +22,6 @@ public class ReaderServiceImpl implements ReaderService {
         List<reader> readers = readerRepository.findByCriteria(query);
         return readers;
     }
+    
+    
 }

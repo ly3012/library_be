@@ -2,6 +2,7 @@ package com.library.entity;
 
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -15,12 +16,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +38,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="idReader")
 public class reader {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,6 +64,9 @@ public class reader {
 	@Column(name = "Status")
 	private boolean status;
 
+	@OneToMany(mappedBy = "reader", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	
+	 private Collection<callSlip> callSlips;
 	
 //	@OneToMany (mappedBy = "callSlip")
 //	private Set<callSlip> callSlips;
