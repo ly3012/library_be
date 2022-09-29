@@ -23,6 +23,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
@@ -35,7 +36,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="idBook")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="idBook")
 public class book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +65,8 @@ public class book {
 	@Column(name = "updated_at", nullable = false, updatable = true)
     private Date updatedAt;
 	
-	 @ManyToMany(mappedBy = "books",fetch = FetchType.EAGER)
+	 @ManyToMany(mappedBy = "books",fetch = FetchType.LAZY)
+	 @JsonIgnore
 	 private Collection<callSlip> callSlips;
 	
 //	@LastModifiedDate

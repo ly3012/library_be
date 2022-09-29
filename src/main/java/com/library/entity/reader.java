@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="idReader")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="idReader")
 public class reader {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,9 +64,8 @@ public class reader {
 	@Column(name = "Status")
 	private boolean status;
 
-	@OneToMany(mappedBy = "reader", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	
-	 private Collection<callSlip> callSlips;
+//	@OneToMany(mappedBy = "reader", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//	 private Collection<callSlip> callSlips;
 	
 //	@OneToMany (mappedBy = "callSlip")
 //	private Set<callSlip> callSlips;

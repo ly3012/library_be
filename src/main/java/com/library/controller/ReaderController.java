@@ -32,7 +32,7 @@ public class ReaderController {
 	@Autowired
 	private ReaderService readerService;
 	
-	public List<reader> readers = new ArrayList<reader>();
+//	public List<reader> readers = new ArrayList<reader>();
 
 
 	@GetMapping("/readers")

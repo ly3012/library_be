@@ -44,7 +44,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="id")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="id")
 public class User {
 
 	@Id
@@ -85,8 +85,8 @@ public class User {
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Collection<callSlip> callSlips;
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//	private Collection<callSlip> callSlips;
 
 	public User(Long id, String name, String username, String email, String password, String avatar, String phoneNumber,
 			Set<Role> roles) {

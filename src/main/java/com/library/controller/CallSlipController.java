@@ -1,4 +1,8 @@
 package com.library.controller;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.library.dto.request.CallSlipForm;
@@ -36,6 +41,7 @@ import com.library.repository.CallSlipRepository;
 import com.library.repository.ReaderRepository;
 import com.library.repository.UserRepository;
 import com.library.service.BookService;
+import com.library.service.CallSlipService;
 import com.library.service.impl.CallSlipServiceImpl;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -45,6 +51,9 @@ public class CallSlipController {
 
 	@Autowired
 	private CallSlipRepository callSlipRepository;
+	
+	@Autowired
+	private CallSlipService callSlipService;
 
 	@Autowired
 	private CallSlipServiceImpl callSlipServiceImpl;
@@ -65,6 +74,11 @@ public class CallSlipController {
 	public List<callSlip> getAll() {
 		return callSlipRepository.findAll();
 	}
+	@PostMapping("/callCards/return/{id}")
+    public ResponseEntity<?> returnBooks(@PathVariable Long id){
+		callSlipServiceImpl.returnBooks(id, Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+        return ResponseEntity.ok().body(id);
+    }
 	
 	@PostMapping("/callCards")
 	public ResponseEntity<?> callCards(@Valid @RequestBody CallSlipForm CallSlipForm) {
@@ -86,10 +100,7 @@ public class CallSlipController {
 		return ResponseEntity.ok(new ResponseMessage("Tạo phiếu mượn thành công!"));
 	}
 	
-//	@PostMapping("/callCards")
-//	public callSlip create(@RequestBody callSlip callSlip) {
-//		return callSlipRepository.save(callSlip);
-//	}
+
 
 	@DeleteMapping("/callCards/{id}")
 	public ResponseEntity<HttpStatus> deleteEmployeeById(@PathVariable Long id) {
@@ -107,4 +118,9 @@ public class CallSlipController {
 	public callSlip updateReader(@RequestBody callSlip callSlip) {
 		return callSlipRepository.save(callSlip);
 	}
+	
+	@GetMapping("/callCards/search")
+    public ResponseEntity<List<callSlip>> findByCriteria(@RequestParam("query") String query){
+        return ResponseEntity.ok(callSlipService.findByCriteria(query));
+    }
 }

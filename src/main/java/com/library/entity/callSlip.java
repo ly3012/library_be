@@ -1,5 +1,7 @@
 package com.library.entity;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -38,19 +40,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="idCallSlip")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="idCallSlip")
 public class callSlip {
 	
-
-
-	public callSlip(reader reader2, User user2, Set<book> books2) {
-		// TODO Auto-generated constructor stub
-		this.books = books2;
-		this.reader = reader2;
-		this.user = user2;
-	}
-
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idCallSlip")
@@ -60,10 +52,15 @@ public class callSlip {
 	@Column(name = "create_at",nullable = false, updatable = true)
     private Date created;
 	
+	@Column(name = "due_date",nullable = false, updatable = true)
+    private Date dueDate = Date.from( LocalDateTime.now().plusDays(5).atZone(ZoneId.systemDefault()).toInstant());
    
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn (name = "id_reader")
 	private reader reader;
+	
+	@Column (name = "return_date")
+	private Date returnDate;
 	
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -82,6 +79,10 @@ public class callSlip {
 			)	
 	private Collection<book> books;
 	
-	
+	public callSlip(reader reader2, User user2, Set<book> books2) {
+		this.books = books2;
+		this.reader = reader2;
+		this.user = user2;
+	}
 
 }
