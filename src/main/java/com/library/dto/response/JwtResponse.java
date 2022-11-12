@@ -21,17 +21,24 @@ public class JwtResponse {
     private String name;
     private String username;
     private List<String> roles;
-    private Optional<User> user;
+//    private Optional<User> user;
 //    private Collection<?extends GrantedAuthority> roles;
 
     
 
-    public JwtResponse(String token, String name, String username, Optional<User> user, List<String> roles) {
+//    public JwtResponse(String token, String name, String username, Optional<User> user, List<String> roles) {
+//        this.token = token;
+//        this.name = name;
+//        this.username = username;
+//        this.roles = roles;
+//        this.user = user;
+//    }
+    public JwtResponse(String token, String name, String username, List<String> roles) {
         this.token = token;
         this.name = name;
         this.username = username;
         this.roles = roles;
-        this.user = user;
+//        this.user = user;
     }
 
     public String getToken() {

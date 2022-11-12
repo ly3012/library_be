@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.library.dto.response.ResponseMessage;
 import com.library.entity.book;
 import com.library.repository.BookRepository;
 import com.library.service.BookService;
@@ -39,23 +40,37 @@ public class BookController {
 	public List<book> getAll() {
 		return bookRepository.findAll();
 	}
+	@PostMapping("/books")
+	public ResponseEntity<?> create(@RequestBody book book) {
+		bookRepository.save(book);
+		return new ResponseEntity<>(new ResponseMessage("Thêm thành công",book), HttpStatus.OK);
+	}
+	@DeleteMapping("/books")
+	public ResponseEntity<?> deleteById(@RequestParam("id") Long id) {
+				bookRepository.deleteById(id);
+		return new ResponseEntity<>("Xóa thành công",HttpStatus.OK);
+	}
+	@PutMapping("/books")
+	public ResponseEntity<?> updateBook(@RequestBody book book,@RequestParam("id") Long id) {
+		book.setIdBook(id);
+		return new ResponseEntity<>(new ResponseMessage("Sửa thành công",bookRepository.save(book)), HttpStatus.OK);
+	}
+	
 	
 	@GetMapping("/books/search")
     public ResponseEntity<List<book>> findBookByCriteria(@RequestParam("query") String query){
         return ResponseEntity.ok(bookService.findBookByCriteria(query));
     }
 	
-	@PostMapping("/books")
-	public book create(@RequestBody book book) {
-		
-		return bookRepository.save(book);
-	}
+//	@PostMapping("/books")
+//	public book create(@RequestBody book book) {
+//		
+//		return bookRepository.save(book);
+//	}
 
-	@DeleteMapping("/books/{id}")
-	public ResponseEntity<HttpStatus> deleteEmployeeById(@PathVariable Long id) {
-		bookRepository.deleteById(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
+	
+	
+	
 
 	
 	@GetMapping("/books/{id}")
@@ -63,8 +78,5 @@ public class BookController {
 		return bookRepository.findById(id).get();
 	}
 	
-	@PutMapping("/books")
-	public book updateBook(@RequestBody book book) {
-		return bookRepository.save(book);
-	}
+	
 }
