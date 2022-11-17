@@ -90,8 +90,13 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm) {
-		
+	public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm){
+		if (!userService.existsByUsername(signInForm.getUsername())) {
+			return new ResponseEntity<>(new ResponseMessage("tên đăng nhập không tồn tại"), HttpStatus.OK);
+		}
+		String pw = userService.findByUsername(signInForm.getUsername()).get().getPassword();
+		if(!passwordEncoder.matches(signInForm.getPassword(),pw)) {
+			return new ResponseEntity<>(new ResponseMessage("Mật khẩu sai"), HttpStatus.OK);		}
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
 						signInForm.getUsername(), 
@@ -108,16 +113,42 @@ public class AuthController {
 		UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
 		
 		Optional<User> user = userService.findByUsername(signInForm.getUsername());
-		
 		return ResponseEntity.ok(
-				new JwtResponse(
-						token, 
-						userPrinciple.getName(), 
-						userPrinciple.getUsername(),
-						roles
-						
+			new JwtResponse(
+					token, 
+					userPrinciple.getName(), 
+					userPrinciple.getUsername(),
+					roles
+					)
+			);
+	}
+	public String logi(@Valid @RequestBody SignInForm signInForm) {
+		
+		if(!userService.existsByUsername(signInForm.getUsername())) {
+			return "Username không tồn tại";
+		}
+		String pw = userService.findByUsername(signInForm.getUsername()).get().getPassword();
+		if(!passwordEncoder.matches(signInForm.getPassword(),pw)) {
+			return "Sai mật khẩu";
+		}
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(
+						signInForm.getUsername(), 
+						signInForm.getPassword()
 				)
 		);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		String token = jwtProvider.createToken(authentication);
+		UserPrinciple userDetails = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+		UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+		
+		Optional<User> user = userService.findByUsername(signInForm.getUsername());
+		return "\"token\": "+token;
+
 //		return ResponseEntity.ok(
 //				new JwtResponse(
 //						token, 

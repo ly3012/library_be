@@ -40,22 +40,31 @@ public class BookController {
 	public List<book> getAll() {
 		return bookRepository.findAll();
 	}
+
 	@PostMapping("/books")
-	public ResponseEntity<?> create(@RequestBody book book) {
-		bookRepository.save(book);
-		return new ResponseEntity<>(new ResponseMessage("Thêm thành công",book), HttpStatus.OK);
-	}
-	@DeleteMapping("/books")
-	public ResponseEntity<?> deleteById(@RequestParam("id") Long id) {
-				bookRepository.deleteById(id);
-		return new ResponseEntity<>("Xóa thành công",HttpStatus.OK);
-	}
-	@PutMapping("/books")
-	public ResponseEntity<?> updateBook(@RequestBody book book,@RequestParam("id") Long id) {
-		book.setIdBook(id);
-		return new ResponseEntity<>(new ResponseMessage("Sửa thành công",bookRepository.save(book)), HttpStatus.OK);
+	public book create(@RequestBody book book) {
+		return bookRepository.save(book);
+//		return new ResponseEntity<>(new ResponseMessage("Thêm thành công",book), HttpStatus.OK);
 	}
 	
+	@DeleteMapping("/books/{id}")
+	public ResponseEntity<?> deleteById(@PathVariable Long id) {
+		if(!bookRepository.existsById(id)) {
+			return new ResponseEntity<>(new ResponseMessage("Không tồn tại"),HttpStatus.OK);
+		}
+				bookRepository.deleteById(id);
+		return new ResponseEntity<>(new ResponseMessage("Xóa thành công"),HttpStatus.OK);
+	}
+	
+	@PutMapping("/books/{id}")
+	public ResponseEntity<?> updateBook(@RequestBody book book,@PathVariable Long id) {
+		if(!bookRepository.existsById(id)) {
+			return new ResponseEntity<>(new ResponseMessage("Không tồn tại"),HttpStatus.OK);
+		}
+		book.setIdBook(id);
+		return ResponseEntity.ok(bookRepository.save(book));
+//		return new ResponseEntity<>(new ResponseMessage("Sửa thành công"), HttpStatus.OK);
+	}
 	
 	@GetMapping("/books/search")
     public ResponseEntity<List<book>> findBookByCriteria(@RequestParam("query") String query){
@@ -64,19 +73,14 @@ public class BookController {
 	
 //	@PostMapping("/books")
 //	public book create(@RequestBody book book) {
-//		
 //		return bookRepository.save(book);
 //	}
-
-	
-	
-	
-
 	
 	@GetMapping("/books/{id}")
-	public book getBookById(@PathVariable Long id) {
-		return bookRepository.findById(id).get();
+	public ResponseEntity<?> getBookById(@PathVariable Long id) {
+		if(!bookRepository.existsById(id)) {
+			return new ResponseEntity<>(new ResponseMessage("Không tồn tại"),HttpStatus.OK);
+		}
+		return ResponseEntity.ok(bookRepository.findById(id).get());
 	}
-	
-	
 }
